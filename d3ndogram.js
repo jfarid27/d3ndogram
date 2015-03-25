@@ -61,7 +61,8 @@
                 shownTree = undefined,
                 selectedTree = {
                     'root': undefined
-                }
+                },
+                dendogramTree = undefined
 
             var childrenAccessor = function(node){
                 return node.children
@@ -105,12 +106,15 @@
                 dendogram = selection.append('g')
                     .classed('d3ndogram', true) 
 
-                axis.x.group = selection.append('g')
+                axis.x.group = dendogram.append('g')
                     .classed('d3ndogram-x-axis', true)
 
-                axis.y.group = selection.append('g')
+                axis.y.group = dendogram.append('g')
                     .classed('d3ndogram-y-axis', true)
 
+                dendogramTree = dendogram.append('g')
+                    .classed('d3ndogram-tree', true) 
+                
                 cluster = d3.layout.cluster()
                     .separation(function(){ return 1 })
 
@@ -152,11 +156,11 @@
                     })
 
                     var nodes = cluster.nodes(shownTree)
-                    var svgNodes = dendogram
+                    var svgNodes = dendogramTree
                         .selectAll('circle').data(nodes)
 
                     var paths = cluster.links(nodes)
-                    var svgPaths = dendogram
+                    var svgPaths = dendogramTree
                         .selectAll('path').data(paths)
 
                     svgPaths.enter().append('path')
@@ -226,7 +230,6 @@
 
                 dispatch.on('clean', function(){
                     dendogram.selectAll('*').remove()
-                    subtree.selectAll('*').remove()
                     axis.x.group.selectAll('*').remove()
                     axis.y.group.selectAll('*').remove()
                 })
@@ -235,11 +238,11 @@
 
                     if (!selectedTree.root){
 
-                        dendogram.selectAll('circle')
+                        dendogramTree.selectAll('circle')
                             .transition().duration(800)
                             .attr('fill', settings.style.node.color)
 
-                        dendogram.selectAll('path')
+                        dendogramTree.selectAll('path')
                             .transition().duration(800)
                             .attr('fill', settings.style.node.color)
 
