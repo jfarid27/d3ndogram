@@ -1,0 +1,11 @@
+{
+  "name": "d3ndogram",
+  "main": "d3ndogram.js",
+  "version": "1.0.0",
+  "description": "A light d3 based dendogram drawing module for requireJS",
+  "homepage": "https://github.com/jfarid27/d3ndogram",
+  "authors": [
+    "jfarid27 <jrab227@gmail.com>"
+  ],
+  "license": "MIT"
+}
